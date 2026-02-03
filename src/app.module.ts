@@ -19,6 +19,8 @@ import { PlaneditorModule } from './planeditor/planeditor.module';
 import { AuthModule } from './auth/auth.module';
 import { UsersModule } from './users/users.module';
 import { ManpowerModule } from './manpower/manpower.module';
+import { ConfigService } from '@nestjs/config';
+
 
 @Module({
   imports: [
@@ -28,13 +30,14 @@ import { ManpowerModule } from './manpower/manpower.module';
     }),
      TypeOrmModule.forRootAsync({
   name: '10_17_77_118',
-  useFactory: () => ({
+  inject: [ConfigService],
+  useFactory: (configService: ConfigService) => ({
     type: 'postgres',
     host: '10.17.77.118',
     port: 5435,
     username: 'postgres',
-    password: 'postgres',
-    database: 'postgres',
+    password: configService.get<string>('PASSWORD_10_17_77_118'),
+    database: configService.get<string>('DB_NAME_10_17_77_118'),
     entities: [Realtimestatus, Outputproduction, Weblayout],
     retryAttempts: 9999999,
     retryDelay: 3000,
@@ -42,13 +45,14 @@ import { ManpowerModule } from './manpower/manpower.module';
 }),
 TypeOrmModule.forRootAsync({
   name: '10_17_66_121',
-  useFactory: () => ({
+  inject: [ConfigService],
+  useFactory: (configService: ConfigService) => ({
     type: 'postgres',
     host: '10.17.66.121',
     port: 5432,
     username: 'postgres',
-    password: 'ez2ffp0bp5U3',
-    database: 'iot',
+    password: configService.get<string>('PASSWORD_10_17_66_121'),
+    database: configService.get<string>('DB_NAME_10_17_66_121'),
     entities: [],
     retryAttempts: 999999,
     retryDelay: 3000,
@@ -56,13 +60,14 @@ TypeOrmModule.forRootAsync({
 }),
 TypeOrmModule.forRootAsync({
   name: '10_17_66_144',
-  useFactory: () => ({
+   inject: [ConfigService],
+  useFactory: (configService: ConfigService) => ({
     type: 'postgres',
     host: '10.17.66.144',
     port: 5432,
     username: 'postgres',
-    password: '9VcP4fqF51ey',
-    database: 'iot',
+    password: configService.get<string>('PASSWORD_10_17_66_144'),
+    database: configService.get<string>('DB_NAME_10_17_66_121'),
     entities: [],
     retryAttempts: 999999,
     retryDelay: 3000,
